@@ -1,129 +1,102 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+import random #this allows random.shuffle() to work
+#------------------------------------------------------------------
+# defining variables/functions
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8] #numbers that the user will have to try and guess
+grid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] #this creates the grid which 'hides' the numbers
 
-# C extensions
-*.so
+win_condition = 0 # setting the win_condition to equal zero as it needs to equal to 8, in order to win
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+def map(): # using def() creates a function which is map()
+    print("{} {} {} {}\n {} {} {} {}\n {} {} {} {}\n {} {} {} {}".format(grid[0], grid[1], grid[2], grid[3], grid[4], grid[5], grid[6], grid[7], grid[8], grid[9], grid[10], grid[11], grid[12], grid[13], grid[14], grid[15]))
+#------------------------------------------------------------------ #startup of the game
+#random.shuffle(numbers) #shuffles the numbers so that it is random each time
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# welcoming the user to the game
+print("welcome to the memory card game!\n!(˃ᆺ˂)!") # prints out saying welcome to the user
+print("The board looks like: \n 1   2   3   4\n 5   6   7   8\n 9  10  11  12\n13  14  15  16") # prints out the grid to show the user what it looks like
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+print("the numbers are shuffled in this order:") #telling the user on what the number sequence looks like
+print(numbers) # prints the numbers, so that the user see's where the numbers are
+print("To win the game, you must memorise the sequence of the numbers, and then pair them by typing in the position of that number on the grid!\n\n good luck!")#telling the user how to play
+#------------------------------------------------------------------ #setting the game up, and having the win condition
+while True: # creates a loop by setting it to True
+    try: # this works with IndexError and ValueError by allowing the errors to go through
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+        # if the user reaches the score of 8, it ends the loop, resulting the user to win the game
+        if win_condition == 8: # makes the win_condition equal to 8
+            print("congratulations\n\nyou win! (⁎˃ᆺ˂)") # prints out the win statement
+            break # ends the code
+#------------------------------------------------------------------ #asking the user for their guesses
 
-# Translations
-*.mo
-*.pot
+#asking the user for their first number guess.                 #includes error prevention  - words, invalid numbers, no input (spaces, symbols etc.)
+        leave = input("would you like to continue? type yes to continue and no to exit") #asks the user if they would like to stay in the game or not
+        if leave == 'no': #if leave == no: then it will use the code below
+          print("bye!!\n (⁎˃ᆺ˂)") #says bye to the user
+          break #ends the code
+        
+        if leave == 'yes':
+          continue
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+        first_guess = ""
+        # this makes sure that the user can only select a number between 1 to 16 - error prevention
+        valid_input = False #this allows valid_input ot go through if its set to True
 
-# Flask stuff:
-instance/
-.webassets-cache
+        while not valid_input: #while the valid_input is not in use
+            try: #using its own try statement so that ValueError to work
+                first_guess = int(input("Please select a number between 1 and 16: ")) #asking the user to select a number between 1 to 16
+                if 1 <= first_guess <= 16: #only allows numbers 1 to 16 to work
+                    if grid[first_guess - 1] == 0: #if first_guess == 0: then the valid_input will be True
+                        valid_input = True #if an error occurs, valid_input will be True, showing the user errors
+                    else:#else specifies a default block of code that will run if all of the previous if and elif conditions are False.
+                        print("Make sure the guess hasn't already been selected.") #making sure that the user cannot select the same number
+                else:#else specifies a default block of code that will run if all of the previous if and elif conditions are False.
+                    print("Make sure the guess is between 1 and 16")#making sure that the user selects a number between 1 and 16
+            except ValueError:#allows ValueError to pass by using Try:
+                print("That is not a valid input")#tells the user that their answer is a valid input
 
-# Scrapy stuff:
-.scrapy
+        # set grid to the number in the other list
+        grid[first_guess - 1] = numbers[first_guess - 1]
 
-# Sphinx documentation
-docs/_build/
+#asking the user for their second number guess.                #error prevention  - words, invalid numbers, no input (spaces, symbols etc.)
+        second_guess = ""
+        # this makes sure that the user can only select a number between 1 to 16 - error prevention
+        valid_input2 = False #this allows valid_input2 ot go through if its set to True
 
-# PyBuilder
-target/
+        while not valid_input2:  #while the valid_input2 is not in use
+            try: #using its own try statement so that ValueError to work
+                second_guess = int(input("Please select a number between 1 and 16: ")) #asking the user to select another number between 1 to 16
+                if 1 <= second_guess <= 16:  #only allows numbers 1 to 16 to work
+                    if grid[second_guess - 1] == 0: #if second_guess == 0: then the valid_input2 will be True
+                        valid_input2 = True #if an error occurs, valid_input2 will be True, showing the user errors
+                    else: #else specifies a default block of code that will run if all of the previous if and elif conditions are False.
+                        print("Make sure the guess hasn't already been selected.") #making sure that the user selects a number between 1 and 16
+                else:# else specifies a default block of code that will run if all of the previous if and elif conditions are False.
+                    print("Make sure the guess is between 1 and 16")
+            except ValueError: #allows ValueError to pass by using Try:
+                print("That is not a valid input") #tells the user that their answer is a valid input
+#----------------------------------------------------------------- #recognising an incorrect or correct answer 
+        # set grid to the number in the other list
+        grid[second_guess - 1] = numbers[second_guess - 1]
 
-# Jupyter Notebook
-.ipynb_checkpoints
+        print(grid) # prints the grid
 
-# IPython
-profile_default/
-ipython_config.py
+        # if the user gets a incorrect answer
+        if numbers[first_guess - 1] != numbers[second_guess - 1]: # using the if numbers[first_guess - 1] != numbers[second_guess -1]: it recognises that it is not equal to, creating an incorrect match
+            grid[first_guess - 1] = 0
+            grid[second_guess - 1] = 0
+            print("incorrect (⋟﹏⋞)") # tells the user that their guess is incorrect
+            
+        # if the user gets the correct answer
+        elif numbers[first_guess - 1] == numbers[first_guess - 1]:
+            grid[first_guess -1] = '✔' # if the user selects a correct answer, it will display a tick
+            grid[second_guess - 1] = '✔' # if the user selects a correct answer, it will display a tick
+            print("correct! (⁎˃ᆺ˂)") # shows the user that its correct
+            win_condition += 1 #adds one each time the user gets a correct answer
 
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+            map() # prints the grid by using the def()
+#------------------------------------------------------------------ #except Values, allows errors to pass by
+    except ValueError: # This works with try: by allowing the ValueError to pass by
+        break #break ends the code
+    
+    except IndexError: # This works with try: by allowing the IndexError to pass by
+        print("(⁎˃ᆺ˂) (⁎˃ᆺ˂) (⁎˃ᆺ˂)") #prints faces
